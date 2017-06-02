@@ -17,6 +17,7 @@ if(Meteor.isServer){
                     createdAt: new Date(),
                     owner: userId,
                     username: 'tmeasday',
+                    private: true,
                 });
             });
 
