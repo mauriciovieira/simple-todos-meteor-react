@@ -3,6 +3,7 @@ import { Random } from 'meteor/random';
 import { assert } from 'meteor/practicalmeteor:chai';
 
 import { Tasks } from './tasks.js';
+import { createStubs, restoreStubs } from './stubs.tests.js';
 
 if(Meteor.isServer){
     describe('Tasks', () => {
@@ -19,7 +20,12 @@ if(Meteor.isServer){
                     username: 'tmeasday',
                     private: true,
                 });
+                createStubs();
             });
+
+            // afterEach(() => {
+            //      restoreStubs();
+            // });
 
             it('can delete owned task', () => {
                 // Find the internal implementation of the task method so we can
@@ -34,6 +40,7 @@ if(Meteor.isServer){
 
                 // Verify that the method does what we expected
                 assert.equal(Tasks.find().count(), 0);
+                restoreStubs();
             });
 
             it('can add one task', () => {
@@ -41,6 +48,7 @@ if(Meteor.isServer){
                 const invocation = { userId };
                 insertTask.apply(invocation, ["name"]);
                 assert.equal(Tasks.find().count(), 2);
+                restoreStubs();
             });
         });
     });
